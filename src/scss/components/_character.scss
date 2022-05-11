@@ -1,0 +1,8 @@
+@mixin character($character: mario){
+    &[data-character="#{$character}"]{
+        .card__front{
+            background-image: url('assets/images/#{$character}@2x.png');
+            background-color: var(--color-#{$character});
+        }
+    }
+}

@@ -1,0 +1,36 @@
+.header{
+    display: grid;
+    grid-template-columns: 1fr;
+    
+    &__title{
+        margin: 3rem auto 1rem;
+        font-size: var(--font-size-5);
+    }
+}
+
+.score-panel{
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: var(--font-size-3);
+
+    &__inner{
+       margin: 0 auto 3rem;
+       display: flex;
+       gap: 2rem;
+    }
+}
+
+.deck{
+    display: grid;
+    
+    &__list{
+        max-width: 54rem;
+        margin: 0 auto;
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+}

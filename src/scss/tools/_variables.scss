@@ -1,0 +1,35 @@
+:root{
+    --section-gap: 8rem;
+    --section-inner-gap: calc(var(--section-gap) * 0.75);
+    --section-inner-gap-small: calc(var(--section-gap) * 0.5);
+
+    --grid-gap: 3rem;
+    --grid-container: minmax(30px, 1fr) [inner-start] minmax(0, 78rem) [inner-end] minmax(30px, 1fr);
+    --grid-inner: repeat(12, 1fr);
+
+    --content-width: 55rem;
+
+    --color-primary: #222;
+    --color-mario: #E0120F;
+    --color-luigi: #08A836;
+    --color-peach: #EF96BE; 
+    --color-toad: #184199; 
+    --color-bowser: #F8BD0F; 
+    --color-yoshi: #70B920; 
+    --color-daisy: #EE820C;
+    --color-boo: #95A3AE; 
+    --color-dk: #742508; 
+    --color-bowserjr: #F6CE07; 
+
+
+    --font-weight: 500;
+    --font-sans: 'Catamaran', sans-serif;
+    --font-base: 1rem;
+    --font-scale: 1.25;
+    --font-size-1: var(--font-base);
+    --font-size-2: calc(var(--font-size-1) * var(--font-scale));
+    --font-size-3: calc(var(--font-size-2) * var(--font-scale));
+    --font-size-4: calc(var(--font-size-3) * var(--font-scale));
+    --font-size-5: calc(var(--font-size-4) * var(--font-scale));
+    --font-size-6: calc(var(--font-size-5) * var(--font-scale));
+}
