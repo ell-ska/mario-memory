@@ -39,43 +39,58 @@ const memoryApp = () => {
 // step 3 - flip first and second card
 // step 5 - compare cards attr value
 // step 6 - IF same value, stay flipped up. IF different value, flip both cards again - go back to step 3
+    
+    let wrong = false    // Create variable for wrong click
 
     const flipCard = (event) => {
     
-        const flippedCards = document.querySelectorAll('.card--flipped')
+            if (wrong === true) return // Preventing user to click new card before the wrong ones disappeared.
+            
+            // Switch order to add class before fetching elements
+            event.target.parentNode.classList.add('card--flipped')
+            const flippedCards = document.querySelectorAll('.card--flipped')
         
-        if (flippedCards.length < 1) {
-
-            event.target.parentNode.classList.add('card--flipped')
-
-        } else {
-            event.target.parentNode.classList.add('card--flipped')
 
             const currentCharacterOne = flippedCards[0]
             const currentCharacterTwo = flippedCards[1]
 
-            const currentCharacterOneAttr = currentCharacterOne.getAttribute('data-character')
-            const currentCharacterTwoAttr = currentCharacterTwo.getAttribute('data-character')
+            // If there is two cards flipped:
+            if ( currentCharacterOne && currentCharacterTwo ) {
 
-            if (currentCharacterOneAttr === currentCharacterTwoAttr){
 
-                currentCharacterOne.classList.add('card--complete')
-                currentCharacterTwo.classList.add('card--complete')
+                const currentCharacterOneAttr = currentCharacterOne.getAttribute('data-character')
+                const currentCharacterTwoAttr = currentCharacterTwo.getAttribute('data-character')
+    
+                // If Pair
+                if (currentCharacterOneAttr === currentCharacterTwoAttr){
+    
+                    currentCharacterOne.classList.add('card--complete')
+                    currentCharacterTwo.classList.add('card--complete')
 
-                // MAKE THE COMPLETED ONES NON-CLICKABLE
-                
-            } else {
+                    // Remove card flipped right away
+                    currentCharacterOne.classList.remove('card--flipped')
+                    currentCharacterTwo.classList.remove('card--flipped')
+    
+                    // MAKE THE COMPLETED ONES NON-CLICKABLE
+                    
+                } else {
+    
+                    // MAKE CARDS FLIP BACK AFTER SOME TIME
 
-                // MAKE CARDS FLIP BACK AFTER SOME TIME
+                    wrong = true // Prevent user from clicking to fast
 
-                console.log('wrong')
-                
+                    // After 1 sec remove class to turn back and enable new choices.
+                    setTimeout(() => {
+                        currentCharacterOne.classList.remove('card--flipped')
+                        currentCharacterTwo.classList.remove('card--flipped')
+                        wrong = false
+                    }, 1000)
+                    
+                }
+
             }
             
-            currentCharacterOne.classList.remove('card--flipped')
-            currentCharacterTwo.classList.remove('card--flipped')
 
-        }
         
     }
 // step 7 - WHEN all cards are flipped, show winner screen
