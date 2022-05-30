@@ -1,13 +1,22 @@
 const memoryApp = () => {
 
-// step 1 - get all elements needed
-    const timer = document.querySelector('.score-panel__timer')
-    const moves = document.querySelector('.score-panel__moves')
+// Get needed elements 
+    const minutes = document.querySelector('.score-panel__minutes')
+    const seconds = document.querySelector('.score-panel_seconds')
+    const startButton = document.querySelector('.start__button')
+    const startOverlay = document.querySelector('.start')
+    const moves = document.querySelector('.score-panel__moves span')
+    const restartButtonHome = document.querySelector('.score-panel__refresh')
+    const restartButtonWinner = document.querySelector('.winner-screen__refresh')
+    const winnerScreen = document.querySelector('.winner-screen')
     const cards = document.querySelectorAll('.card')
+    const winnerSeconds = document.querySelector('.winner-screen__seconds')
+    const winnerMinutes = document.querySelector('.winner-screen__minutes')
+    const winnerMoves = document.querySelector('.winner-screen__moves')
 
-
-// step 2 - randomize data attr for every card
-
+/**
+ * Character array
+ */
     const allCharacters = [
         'mario',
         'luigi',
@@ -21,6 +30,9 @@ const memoryApp = () => {
         'bowserjr'
     ]
 
+/**
+ * Shuffle deck
+ */
     const shuffleDeck = () => {
 
         const charactersToBeShuffled = allCharacters.concat(allCharacters)
@@ -35,79 +47,210 @@ const memoryApp = () => {
         })
         
     }
-    
-// step 3 - flip first and second card
-// step 5 - compare cards attr value
-// step 6 - IF same value, stay flipped up. IF different value, flip both cards again - go back to step 3
-    
+     
+/**
+ * The game
+ */
     let wrong = false    // Create variable for wrong click
-
+    let amountOfMoves = 0
+    
     const flipCard = (event) => {
-    
-            if (wrong === true) return // Preventing user to click new card before the wrong ones disappeared.
-            
-            // Switch order to add class before fetching elements
-            event.target.parentNode.classList.add('card--flipped')
-            const flippedCards = document.querySelectorAll('.card--flipped')
         
+        amountOfMoves = amountOfMoves + 1
+        moves.innerHTML = amountOfMoves
+        // IT COUNTS IF YOURE TOO FAST
 
-            const currentCharacterOne = flippedCards[0]
-            const currentCharacterTwo = flippedCards[1]
-
-            // If there is two cards flipped:
-            if ( currentCharacterOne && currentCharacterTwo ) {
-
-
-                const currentCharacterOneAttr = currentCharacterOne.getAttribute('data-character')
-                const currentCharacterTwoAttr = currentCharacterTwo.getAttribute('data-character')
+        if (wrong === true) return // Preventing user to click new card before the wrong ones disappeared.
+        
+        // Switch order to add class before fetching elements
+        event.target.parentNode.classList.add('card--flipped')
+        const flippedCards = document.querySelectorAll('.card--flipped')
     
-                // If Pair
-                if (currentCharacterOneAttr === currentCharacterTwoAttr){
-    
-                    currentCharacterOne.classList.add('card--complete')
-                    currentCharacterTwo.classList.add('card--complete')
+        const currentCharacterOne = flippedCards[0]
+        const currentCharacterTwo = flippedCards[1]
 
-                    // Remove card flipped right away
+        // If there is two cards flipped:
+        if ( currentCharacterOne && currentCharacterTwo ) {
+
+
+            const currentCharacterOneAttr = currentCharacterOne.getAttribute('data-character')
+            const currentCharacterTwoAttr = currentCharacterTwo.getAttribute('data-character')
+
+            // If Pair
+            if (currentCharacterOneAttr === currentCharacterTwoAttr){
+
+                currentCharacterOne.classList.add('card--complete')
+                currentCharacterTwo.classList.add('card--complete')
+
+                // Remove card flipped right away
+                currentCharacterOne.classList.remove('card--flipped')
+                currentCharacterTwo.classList.remove('card--flipped')
+
+                const completedCards = document.querySelectorAll('.card--complete')
+                const amountOfCardsinDeck = allCharacters.length * 2
+
+                if (completedCards.length === amountOfCardsinDeck){
+
+                    winnerScreen.classList.add('winner-screen--complete')
+                    winnerMoves.innerHTML = amountOfMoves
+                    const win = true
+                    timerStop(win)
+
+                }
+                
+            } else {
+
+                wrong = true // Prevent user from clicking to fast
+
+                // After 1 sec remove class to turn back and enable new choices.
+                setTimeout(() => {
                     currentCharacterOne.classList.remove('card--flipped')
                     currentCharacterTwo.classList.remove('card--flipped')
-    
-                    // MAKE THE COMPLETED ONES NON-CLICKABLE
-                    
-                } else {
-    
-                    // MAKE CARDS FLIP BACK AFTER SOME TIME
-
-                    wrong = true // Prevent user from clicking to fast
-
-                    // After 1 sec remove class to turn back and enable new choices.
-                    setTimeout(() => {
-                        currentCharacterOne.classList.remove('card--flipped')
-                        currentCharacterTwo.classList.remove('card--flipped')
-                        wrong = false
-                    }, 1000)
-                    
-                }
-
+                    wrong = false
+                }, 500)
+                
             }
-            
 
-        
+        }
     }
-// step 7 - WHEN all cards are flipped, show winner screen
 
-// step 8 - restart button
+/**
+ * Start and stop timer
+ */
+    let start = Date.now()
+    let currentMinutes = 0
+    let currentSeconds = 0
+    let timerID
 
-// step 9 - add timer
+    const timerStart = () => {
+        if (!timerID) {
+            start = Date.now()
+            timerID = setInterval(timer, 1000)
+        }
+    }
 
-// step 10 - add move counter
+    const timerStop = (win) => {
 
-// start functions
+        if (currentMinutes < 9){
+            winnerMinutes.innerHTML = '0' + currentMinutes
+        } else {
+            winnerMinutes.innerHTML = currentMinutes
+        }
+        if (currentSeconds < 9){
+            winnerSeconds.innerHTML = '0' + currentSeconds
+        } else {
+            winnerSeconds.innerHTML = currentSeconds
+        }
 
-cards.forEach(card => {
-    card.addEventListener('click', flipCard)
-})
+        clearInterval(timerID)
+        timerID = null
 
-document.addEventListener('DOMContentLoaded', shuffleDeck())
+        currentMinutes = 0
+        currentSeconds = 0
+
+        if (win === true){
+            
+            setTimeout(() => {
+                minutes.innerHTML = '00'
+                seconds.innerHTML = '00'
+            }, 1000)
+            
+        } else {
+            minutes.innerHTML = '00'
+            seconds.innerHTML = '00'
+        }
+    }
+
+/**
+ * Timer function
+ */
+    const timer = () => { // TIMERN BÖRJAR RÄKNA EFTER EN SEKUND
+
+        const currentTime = Date.now() - start
+        const timeToDisplay =  Math.floor( currentTime / 1000)
+        const numberToCompare = Number.isInteger(timeToDisplay / 60)
+
+        if (timeToDisplay < 10) {
+
+            currentSeconds = currentSeconds + 1
+            seconds.innerHTML = '0' + currentSeconds
+
+        } else if (timeToDisplay > 9 && timeToDisplay < 60){
+
+            currentSeconds = currentSeconds + 1
+            seconds.innerHTML = timeToDisplay
+
+        } else if (numberToCompare === true && currentMinutes < 10){
+
+            start = Date.now()
+
+            currentMinutes = currentMinutes + 1
+            minutes.innerHTML = '0' + currentMinutes
+            
+            currentSeconds = 0
+            seconds.innerHTML = '0' + currentSeconds
+
+        } else {
+
+            start = Date.now()
+
+            currentMinutes = currentMinutes + 1
+            minutes.innerHTML = currentMinutes
+            
+            currentSeconds = 0
+            seconds.innerHTML = '0' + currentSeconds
+
+        }
+    }
+
+/**
+ * Start game
+ */
+    const startGame = () => {
+    
+        timerStart()
+
+        startOverlay.classList.add('start--started')
+
+    }
+
+/**
+ * Restart game
+ */
+    const restartGame = () => {
+
+        cards.forEach(card => {
+            card.classList.remove('card--flipped')
+            card.classList.remove('card--complete')
+        })
+        
+        amountOfMoves = 0
+        moves.innerHTML = amountOfMoves
+
+        timerStop()
+
+        shuffleDeck()
+
+        winnerScreen.classList.remove('winner-screen--complete')
+
+        startOverlay.classList.remove('start--started')
+
+    }
+
+/**
+ * Start functions
+ */
+    restartButtonHome.addEventListener('click', restartGame)
+    restartButtonWinner.addEventListener('click', restartGame)
+
+    startButton.addEventListener('click', startGame)
+
+    cards.forEach(card => {
+        card.addEventListener('click', flipCard)
+    })
+
+    document.addEventListener('DOMContentLoaded', shuffleDeck)
+
 
 }
 

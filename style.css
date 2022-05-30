@@ -7,6 +7,7 @@
   --grid-inner: repeat(12, 1fr);
   --content-width: 55rem;
   --color-primary: #222;
+  --color-secondary: #fff;
   --color-mario: #E0120F;
   --color-luigi: #08A836;
   --color-peach: #EF96BE;
@@ -53,6 +54,9 @@ body {
   min-width: 152px;
   border-radius: 10px;
   position: relative;
+}
+.card--flipped, .card--complete {
+  pointer-events: none;
 }
 .card--flipped .card__front, .card--complete .card__front {
   visibility: visible;
@@ -119,6 +123,66 @@ body {
   background-image: url("assets/images/bowserjr@2x.png");
   background-color: var(--color-bowserjr);
 }
+@media screen and (max-width: 34rem) {
+  .card {
+    min-height: 80px;
+    min-width: 80px;
+  }
+}
+
+.winner-screen {
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 990;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: -100%;
+  transition: left 1s;
+  transition-timing-function: cubic-bezier();
+}
+.winner-screen__img {
+  max-width: 75.486vw;
+}
+@media screen and (max-width: 34rem) {
+  .winner-screen__img {
+    max-width: 100vw;
+  }
+}
+.winner-screen__title {
+  font-size: var(--font-size-6);
+  margin-top: 2rem;
+}
+.winner-screen__text {
+  font-size: var(--font-size-4);
+  margin-bottom: 2rem;
+}
+@media screen and (max-width: 34rem) {
+  .winner-screen__text {
+    font-size: var(--font-size-3);
+  }
+}
+.winner-screen__refresh {
+  position: absolute;
+  right: 3rem;
+  bottom: 2rem;
+  color: var(--color-primary);
+  font-size: var(--font-size-2);
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: unset;
+  text-decoration: underline;
+}
+.winner-screen__refresh:hover {
+  color: var(--color-mario);
+}
+.winner-screen--complete {
+  left: 0;
+  transition: left 1s 0.5s;
+}
 
 .header {
   display: grid;
@@ -127,6 +191,12 @@ body {
 .header__title {
   margin: 3rem auto 1rem;
   font-size: var(--font-size-5);
+}
+@media screen and (max-width: 34rem) {
+  .header__title {
+    font-size: var(--font-size-4);
+    margin: 2rem auto 0;
+  }
 }
 
 .score-panel {
@@ -139,11 +209,36 @@ body {
   display: flex;
   gap: 2rem;
 }
+@media screen and (max-width: 34rem) {
+  .score-panel__inner {
+    margin: 0 auto 2rem;
+  }
+}
+.score-panel__refresh {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.score-panel__refresh svg {
+  height: 14px;
+}
+@media screen and (max-width: 34rem) {
+  .score-panel {
+    font-size: var(--font-size-2);
+  }
+}
 
 .deck {
   display: grid;
+  margin-bottom: 1rem;
 }
 .deck__list {
+  position: relative;
   max-width: 54rem;
   margin: 0 auto;
   list-style: none;
@@ -152,6 +247,41 @@ body {
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
+}
+@media screen and (max-width: 34rem) {
+  .deck__list {
+    gap: 0.75rem;
+  }
+}
+
+.start {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 980;
+}
+.start__button {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  padding: 1rem 1.5rem;
+  font-size: var(--font-size-3);
+  color: var(--color-primary);
+  border: 2px var(--color-primary) solid;
+  border-radius: 10px;
+  background-color: var(--color-secondary);
+}
+.start__button:hover {
+  background-color: var(--color-mario);
+  border-color: var(--color-mario);
+  color: var(--color-secondary);
+}
+.start--started {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

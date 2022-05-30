@@ -15,19 +15,38 @@
 <body>
     <div class="container">
 
+        <div class="winner-screen">
+            <img src="assets/images/winner-screen@2x.png" alt="" class="winner-screen__img">
+            <span class="winner-screen__title">Congratulations!</span>
+            <span class="winner-screen__text">You did it in <span class="winner-screen__minutes">00</span>:<span class="winner-screen__seconds">00</span> and <span class="winner-screen__moves">0</span> moves.</span>
+            <button class="winner-screen__refresh">Try again</button>
+        </div>
+
         <header class="header">
             <h2 class="header__title">Super Mario Memory</h2>
         </header>
 
         <div class="score-panel">
             <div class="score-panel__inner">
-                <span class="score-panel__timer">00:00</span>
-                <span class="score-panel__moves">0 moves</span>
+                <span class="score-panel__timer"><span class="score-panel__minutes">00</span>:<span class="score-panel_seconds">00</span></span>
+                <span class="score-panel__moves"><span>0</span> moves</span>
+                <button class="score-panel__refresh">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                        <g id="reset-svgrepo-com" transform="translate(1 1) rotate(90)">
+                          <path id="Path_1" data-name="Path 1" d="M3.987-1.078A8,8,0,0,1,0-8a8,8,0,0,1,8-8,8,8,0,0,1,8,8A8,8,0,0,1,8,0" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" fill-rule="evenodd"/>
+                          <path id="Path_2" data-name="Path 2" d="M4,1V5H0" transform="translate(0 -6)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" fill-rule="evenodd"/>
+                        </g>
+                      </svg>
+                </button>
             </div>
         </div>
 
         <div class="deck">
+            
             <ul class="deck__list">
+                <div class="start">
+                    <button class="start__button">Start game!</button>
+                </div>
 
                 <li class="card">
                     <div class="card__back"></div>
@@ -128,11 +147,10 @@
                     <div class="card__back"></div>
                     <div class="card__front"></div>
                 </li>
-
 
             </ul>
-        </div>
 
+        </div>
 
     </div>
 </body>
